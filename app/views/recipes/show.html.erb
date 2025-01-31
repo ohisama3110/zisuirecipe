@@ -1,0 +1,29 @@
+<p id="notice"></p>
+
+<div class="container" style="position: relative;">
+  <%= image_tag @recipe.image, class: "img-fluid", size: "300x300" %>
+  <h2><%= @recipe.dish_name %></h2>
+  <p><%= @recipe.introduction %></p>
+
+  <div class="row">
+    <h4>材料</h4>
+    <%= @recipe.servings %>
+  </div>
+  <div class="row">
+    <%= @recipe.ingredient %>
+    <%= @recipe.quantity %>
+  </div>
+
+  <h4>手順</h4>
+  <%= @recipe.process %>
+
+  <% if @recipe.user == current_user %>
+    <div class="edit">
+      <%= link_to '編集する', edit_recipe_path(@recipe), class: "btn btn-primary" %>
+    </div>
+
+    <div class="delete" style="position: absolute; bottom: 0; right: 0;">
+      <%= link_to 'レシピを削除', @recipe, method: :delete, data: { confirm: '本当に削除しますか？' }, class: "btn btn-danger" %>
+    </div>
+  <% end %>
+</div>
