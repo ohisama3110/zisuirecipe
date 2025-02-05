@@ -1,4 +1,7 @@
 class UsersController < ApplicationController
+  before_action :authenticate_user!, only: [:edit]
+  before_action :is_matching_login_user, only: [:edit, :update, :destroy]
+
   def show
     @user = User.find(params[:id])
     @user_recipes = @user.recipes
@@ -30,7 +33,20 @@ class UsersController < ApplicationController
   end
 
   private
-  def user_params
-    params.require(:user).permit(:name, :introduction, :image)
-  end
+    def user_params
+      params.require(:user).permit(:name, :introduction, :image)
+    end
+
+    def is_matching_login_user
+      user = User.find(params[:id])
+      unless user.id == current_user.id
+        redirect_to '/mypage'
+      end
+    end
+
+    def authenticate_user!
+      if current_user.nil?
+        redirect_to new_user_session_path, alert: "ログインが必要です"
+      end
+    end
 end
