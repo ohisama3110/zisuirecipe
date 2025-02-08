@@ -44,6 +44,20 @@ class RecipesController < ApplicationController
     redirect_to recipes_path
   end
 
+  def search
+    @query = params[:query]
+    @recipes = Recipe.search(@query)
+    if @recipes.empty?
+      flash.now[:notice] = "検索結果が見つかりませんでした。"
+    end
+    render 'search_results'
+  end
+
+  def search_results
+    @query = params[:query]
+    @recipes = Recipe.search(@query)
+  end
+
   private
 
   def recipe_params

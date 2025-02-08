@@ -29,6 +29,10 @@
     <div class="col-md-8 offset-md-1 mt-5">
       <h1>みんなのレシピ</h1>
       <div class="recipes">
+        <%= form_tag(search_recipes_path, method: :get) do %>
+          <%= text_field_tag :query, params[:query], placeholder: "料理名や食材で検索" %>
+          <%= submit_tag "検索" %>
+        <% end %>
         <% @recipes.each do |recipe| %>
           <div class="recipe-item">
             <div class="recipe-image">
