@@ -11,4 +11,14 @@ Rails.application.routes.draw do
       delete 'destroy_account', to: 'users#destroy', as: 'destroy_account'
     end
   end
+
+  resources :recipes do
+    collection do
+      get 'search', to: 'recipes#search'
+      get 'search_results', to: 'recipes#search_results'
+    end
+  end
+
+  get '/search_results', to: 'recipes#search_results'
+
 end

@@ -18,4 +18,8 @@ class Recipe < ApplicationRecord
     image
   end
 
+  def self.search(query)
+    where("dish_name LIKE ? OR ingredients LIKE ?", "%#{query}%", "%#{query}%")
+  end
+
 end
