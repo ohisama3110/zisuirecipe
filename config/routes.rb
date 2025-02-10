@@ -12,13 +12,6 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :recipes do
-    collection do
-      get 'search', to: 'recipes#search'
-      get 'search_results', to: 'recipes#search_results'
-    end
-  end
-
-  get '/search_results', to: 'recipes#search_results'
+  get "search" => "searches#search"
 
 end

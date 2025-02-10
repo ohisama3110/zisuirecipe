@@ -12,19 +12,7 @@ class User < ApplicationRecord
     profile_image
   end
 
-  # def get_image
-  #   unless image.attached?
-  #     file_path = Rails.root.join('zisuirecipe/app/assets/images/25480379.jpg')
-  #     image.attach(io: File.open(file_path), filename: 'default-image.jpg', content_type: 'image/jpeg')
-  #   end
-  #   image
-  # end
-
-  # def get_profile_image(width, height)
-  #   unless profile_image.attached?
-  #     file_path = Rails.root.join('app/assets/images/25480379.jpg')
-  #     profile_image.attach(io: File.open(file_path), filename: 'default-image.jpg', content_type: 'image/jpeg')
-  #   end
-  #   profile_image.variant(resize: "#{width}x#{height}").processed
-  # end
+  def self.search(query)
+    where("name LIKE ?", "%#{query}%")
+  end
 end
