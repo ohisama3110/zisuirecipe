@@ -1,0 +1,23 @@
+<h1>"<%= @query %>"</h1>
+
+<% @results.each do |user| %>
+  <% if user == current_user %>
+    <a href="<%= mypage_path %>" class="user">
+  <% else %>
+    <a href="<%= user_path(user) %>" class="user">
+  <% end %>
+    <div class="row">
+      <div class="user-image">
+        <% if user.image_url.present? %>
+          <%= image_tag user.image_url %>
+        <% else %>
+          <%= image_tag '25480379.jpg', size: "100x100" %>
+        <% end %>
+      </div>
+      <div class="user-info">
+        <p><%= user.name %></p>
+        <p>投稿したレシピ数: <%= user.recipes.count %></p>
+      </div>
+    </div>
+  </a>
+<% end %>

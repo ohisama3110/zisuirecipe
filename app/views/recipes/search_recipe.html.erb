@@ -1,0 +1,35 @@
+<h1>"<%= @query %>"</h1>
+<% if flash.now[:notice].present? %>
+  <div class="alert alert-warning">
+    <%= flash.now[:notice] %>
+  </div>
+<% end %>
+<% @results.each do |recipe| %>
+  <div class="recipe-item">
+    <div class="row">
+      <div class="recipe-image">
+        <% if recipe.image.attached? %>
+          <%= image_tag recipe.image, size: "150x150" %>
+        <% else %>
+          <img src="/assets/25480379.jpg" alt="画像の説明" width="200" height="200">
+        <% end %>
+      </div>
+      <div class="recipe-info">
+        <p><%= link_to recipe.dish_name, recipe_path(recipe) %></p>
+        <p><%= recipe.ingredient %></p>
+        <p><%= recipe.servings %></p>
+        <p>
+          <% if current_user == recipe.user %>
+            <%= link_to mypage_path do %>
+              <%= recipe.user.name %>
+            <% end %>
+          <% else %>
+            <%= link_to user_path(recipe.user.id) do %>
+              <%= recipe.user.name %>
+            <% end %>
+          <% end %>
+        </p>
+      </div>
+    </div>
+  </div>
+<% end %>
