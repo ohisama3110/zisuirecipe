@@ -27,3 +27,17 @@
     </div>
   <% end %>
 </div>
+
+<%= form_with model: [@recipe, @comment], url: post_comments_path(@recipe), local: false do |f| %>
+  <div class="field">
+    <%= f.label :コメント %><br>
+    <%= f.text_area :content %>
+  </div>
+  <%= f.submit 'コメントする' %>
+<% end %>
+
+<% @recipe.comments.each do |comment| %>
+  <div class="comment">
+    <strong><%= comment.user.username %></strong>: <%= comment.content %>
+  </div>
+<% end %>
