@@ -29,11 +29,19 @@
 </div>
 
 <h2>みんなの反応</h2>
+コメント数：<%= @recipe.comments.count %>件
 <% @recipe.comments.each do |comment| %>
   <div class="comment">
-    <img src="<%= comment.user.profile_image.url %>" alt="プロフィール画像">
+    <% if comment.user.profile_image.attached? %>
+      <%= image_tag comment.user.profile_image.variant(resize: "50x50") %>
+    <% else %>
+      <%= image_tag "25480379.jpg", size: "50x50", alt: "デフォルト画像" %>
+    <% end %>
     <strong><%= comment.user.name %></strong>: <%= comment.content %>
   </div>
+  <% if comment.user == current_user %>
+    <%= link_to "削除", recipe_comment_path(comment.recipe, comment), method: :delete %>
+  <% end %>
 <% end %>
 
 <%= form_with model: [@recipe, @comment] do |f| %>

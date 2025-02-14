@@ -24,7 +24,7 @@
 
 <div style="text-align: center;">
   <% if @user.image_url.present? %>
-    <%= image_tag @user.image_url %>
+    <%= image_tag @user.image_url, size: "100x100" %>
   <% else %>
     <%= image_tag '25480379.jpg', size: "100x100" %>
   <% end %>
