@@ -1,4 +1,4 @@
-<h1>編集ページ</h1>
+<h1>ユーザー情報編集</h1>
 <%= form_with model: @user do |f| %>
   <% if @user.errors.any? %>
   <%= @user.errors.count %>error prohibited this obj from being saved:
@@ -9,12 +9,22 @@
     </ul>
   <% end %>
 
-  <h4>ユーザー名</h4>
-  <%= f.text_field :name, autofocus: true, id: "user_name", placeholder: "Name" %>
+  <div class="col-md-3 mt-3">
+    <h4>プロフィール画像</h4>
+    <div class="form-group form-group-sm">
+      <%= f.file_field :profile_image, placeholder: "プロフィール画像", accept: "image/*" %>
+    </div>
+  </div>
 
-  <%= f.file_field :profile_image, placeholder: "プロフィール画像", accept: "image/*" %>
+  <div class="col-md-3 mt-3">
+    <h4>ユーザー名</h4>
+    <%= f.text_field :name, autofocus: true, id: "user_name", class: "form-control", placeholder: "Name" %>
+  </div>
+  <div class="col-md-6 mt-3">
+    <%= f.text_area :introduction, autofocus: true, id: "user_introduction", class: "form-control", placeholder: "自己紹介" %>
+  </div>
 
-  <%= f.text_area :introduction, autofocus: true, id: "user_introduction", placeholder: "introduction" %>
-
-  <%= f.submit "ユーザー更新" %>
+  <div class="mt-3">
+    <%= f.submit "ユーザー更新", class: "btn btn-primary" %>
+  </div>
 <% end %>

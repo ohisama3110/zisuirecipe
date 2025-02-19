@@ -11,37 +11,52 @@
     </div>
   <% end %>
 
-  <div class="col-md-5">
-    <%= f.text_field :dish_name, class: 'form-control', placeholder: '料理名' %>
+  <div class="row justify-content-center">
+    <div class="col-md-5 mt-2 text-center">
+      <%= f.text_field :dish_name, class: 'form-control', placeholder: '料理名' %>
+    </div>
   </div>
 
-  <%= f.file_field :image, accept: "image/*" %>
-
-  <div class="col-md-10">
-    <%= f.text_area :introduction, class: 'form-control', placeholder: 'おすすめポイントや紹介文' %>
+  <div class="row justify-content-center">
+    <div class="col-md-5 mt-2 text-center">
+      <%= f.file_field :image, accept: "image/*" %>
+    </div>
   </div>
 
-  <div class="row">
-    <h4 class="col-md-2">材料</h4>
-    <div class="col-md-2 col-md-offset-2">
+  <div class="row justify-content-center">
+    <div class="col-md-6 mt-2 text-center">
+      <%= f.text_area :introduction, class: 'form-control', placeholder: 'おすすめポイントや紹介文' %>
+    </div>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-md-2 mt-2">
+      <h4>材料</h4>
+    </div>
+    <div class="col-md-2 mt-2">
       <%= f.text_field :servings, class: 'form-control', placeholder: '何人前' %>
     </div>
   </div>
-  <div class="row">
-    <div class="col-md-4">
+  <div class="row justify-content-center">
+    <div class="col-md-3 mt-2">
       <%= f.text_field :ingredient, class: 'form-control', placeholder: '材料名' %>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3 mt-2">
       <%= f.text_field :quantity, class: 'form-control', placeholder: '分量' %>
     </div>
   </div>
 
-
-  <h4>手順</h4>
-  <div class="col-md-6">
-    <%= f.text_area :process, class: 'form-control', placeholder: '手順' %>
-    <%= f.file_field :image, accept: "image/*" %>
+  <h4 class="text-center mt-2">手順</h4>
+  <div class="row justify-content-center">
+    <div class="col-md-6 mt-2">
+      <%= f.text_area :process, class: 'form-control', placeholder: '手順' %>
+      <%= f.file_field :image, accept: "image/*" %>
+    </div>
   </div>
 
-  <%= f.submit '投稿する' %>
+  <div class="row justify-content-center">
+    <div class="col-md-6 mt-5 text-center">
+      <%= f.submit '投稿する' %>
+    </div>
+  </div>
 <% end %>

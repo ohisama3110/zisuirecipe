@@ -1,61 +1,48 @@
-<!DOCTYPE html>
-<html>
-
-<style>
-  .recipe-item {
-    display: flex;
-    align-items: center;
-  }
-
-  .recipe-image, .recipe-info {
-    width: 200px;
-    height: auto;
-    padding-bottom: 10px;
-  }
-
-  .recipe-info {
-    flex: 1;
-    padding-left: 10px;
-  }
-</style>
-
-<main>
-<div style="text-align: center;">
-  <% if @user.image_url.present? %>
-    <%= image_tag @user.image_url %>
-  <% else %>
-    <%= image_tag '25480379.jpg', size: "100x100" %>
-  <% end %>
-
-  <div>
-    <%= @user.name %>
-  </div>
-  <div>
-    <%= @user.introduction %>
-  </div>
-</div>
-
-<h2>レシピ一覧</h2>
-<% if @user_recipes.any? %>
-  <div class="recipes">
-    <% @user_recipes.each do |recipe| %>
-      <div class="recipe-item">
-        <div class="recipe-image">
-          <% if recipe.image.attached? %>
-            <%= image_tag recipe.image, size: "200x200" %>
-          <% else %>
-            <img src="/assets/25480379.jpg" alt="画像の説明", size: "200x200" >
-          <% end %>
-        </div>
-        <div class="recipe-info">
-          <p><%= link_to recipe.dish_name, "/recipes/#{recipe.id}" %></p>
-          <p><%= recipe.ingredient %></p>
-          <p><%= recipe.servings %></p>
-        </div>
-      </div>
+<main class="container">
+  <div class="text-center">
+    <% if @user.image_url.present? %>
+      <%= image_tag @user.image_url, size: "100x100" %>
+    <% else %>
+      <%= image_tag '25480379.jpg', size: "100x100" %>
     <% end %>
+
+    <div>
+      <%= @user.name %>
+    </div>
+    <div>
+      <%= @user.introduction %>
+    </div>
   </div>
-<% else %>
-  <p>まだ投稿したレシピはありません。</p>
-<% end %>
+
+  <h2>レシピ一覧</h2>
+  <% if @user_recipes.any? %>
+    <div class="recipes">
+      <% @user_recipes.each do |recipe| %>
+        <div class="col-md-8 mb-4">
+          <a href="/recipes/<%= recipe.id %>" class="card-link text-dark">
+            <div class="card">
+              <div class="row no-gutters">
+                <div class="col-4">
+                  <% if recipe.image.attached? %>
+                    <%= image_tag recipe.image, class: "card-img-top img-fluid p-3"; %>
+                  <% else %>
+                    <img src="/assets/25480379.jpg" alt="画像の説明", class: "card-img-top img-fluid p-3"; >
+                  <% end %>
+                </div>
+                <div class="col-8">
+                  <div class="card-body">
+                    <h4 class="card-title"><%= recipe.dish_name %></h4>
+                    <p class="card-text"><%= recipe.ingredient %></p>
+                    <p class="card-text"><%= recipe.servings %></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p>まだ投稿したレシピはありません。</p>
+  <% end %>
 </main>

@@ -1,23 +1,33 @@
-<h1>"<%= @query %>"</h1>
+<main>
+  <h1>"<%= @query %>"のユーザー検索結果</h1>
 
-<% @results.each do |user| %>
-  <% if user == current_user %>
-    <a href="<%= mypage_path %>" class="user">
-  <% else %>
-    <a href="<%= user_path(user) %>" class="user">
-  <% end %>
-    <div class="row">
-      <div class="user-image">
-        <% if user.image_url.present? %>
-          <%= image_tag user.image_url %>
-        <% else %>
-          <%= image_tag '25480379.jpg', size: "100x100" %>
-        <% end %>
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 justify-content-center">
+    <% @results.each do |user| %>
+      <a <% if user == current_user %>
+        href="<%= mypage_path %>"
+      <% else %>
+        href="<%= user_path(user) %>"
+      <% end %> class="card w-50 mx-auto mt-4 shadow-lg user-link text-dark" style="border: none;">
+        <div class="row">
+          <div class="col-6">
+            <div class="user-image p-2">
+              <% if user.image_url.present? %>
+                <%= image_tag user.image_url, size: "100x100" %>
+              <% else %>
+                <%= image_tag '25480379.jpg', size: "100x100" %>
+              <% end %>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="card-body">
+              <div class="user-info">
+                <p><%= user.name %></p>
+                <p>投稿したレシピ数: <%= user.recipes.count %></p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="user-info">
-        <p><%= user.name %></p>
-        <p>投稿したレシピ数: <%= user.recipes.count %></p>
-      </div>
-    </div>
-  </a>
-<% end %>
+    <% end %>
+  </div>
+</main>

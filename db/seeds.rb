@@ -6,6 +6,8 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+Admin.create(email: 'ohisama7039@yahoo.co.jp', password: 'sy3319sy')
+
 puts "seedの実行を開始"
 
 
