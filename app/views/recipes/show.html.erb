@@ -44,6 +44,9 @@
               <%= image_tag "25480379.jpg", size: "50x50", alt: "デフォルト画像" %>
             <% end %>
             <strong><%= comment.user.name %></strong>: <%= comment.content %>
+            <% if comment.user == current_user %>
+              <%= link_to "削除", recipe_comment_path(@recipe, comment), method: :delete, data: {confirm: '本当に削除しますか？'} %>
+            <% end %>
           </div>
         <% end %>
       </div>
