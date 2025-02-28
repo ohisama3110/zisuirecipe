@@ -8,6 +8,8 @@ class User < ApplicationRecord
   has_many :recipes, dependent: :destroy
   has_one_attached :profile_image
   has_many :comments, dependent: :destroy
+  has_many :group_users, dependent: :destroy
+  has_many :groups, through: :group_users
 
   def image_url
     profile_image

@@ -18,32 +18,44 @@
     <%= link_to '編集する', edit_user_path(@user), class: 'btn btn-primary my-2' %>
   </div>
 
-  <h2>レシピ一覧</h2>
-  <% if @user_recipes.any? %>
-    <% @user_recipes.each do |recipe| %>
-      <div class="col-md-8 mb-4">
-        <a href="/recipes/<%= recipe.id %>" class="card-link text-dark">
-          <div class="card">
-            <div class="row no-gutters">
-              <div class="col-4">
-                <%= image_tag recipe.image, class: "card-img-top img-fluid p-3"; %>
-              </div>
-              <div class="col-8">
-                <div class="card-body">
-                  <h4 class="card-title"><%= recipe.dish_name %></h4>
-                  <p class="card-text"><%= recipe.ingredient %></p>
-                  <p class="card-text"><%= recipe.servings %></p>
+  <div class="row">
+    <div class="col-md-8">
+      <h2>レシピ一覧</h2>
+      <% if @user_recipes.any? %>
+        <% @user_recipes.each do |recipe| %>
+          <div class="col-md-8 mb-4">
+            <a href="/recipes/<%= recipe.id %>" class="card-link text-dark">
+              <div class="card">
+                <div class="row no-gutters">
+                  <div class="col-4">
+                    <%= image_tag recipe.image, class: "card-img-top img-fluid p-3"; %>
+                  </div>
+                  <div class="col-8">
+                    <div class="card-body">
+                      <h4 class="card-title"><%= recipe.dish_name %></h4>
+                      <p class="card-text"><%= recipe.ingredient %></p>
+                      <p class="card-text"><%= recipe.servings %></p>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
+            </a>
           </div>
-        </a>
+        <% end %>
+      <% else %>
+        <p>まだ投稿したレシピはありません。</p>
+        <%= link_to "レシピを書く", new_recipe_path, class: 'btn btn-primary my-2' %>
+      <% end %>
+    </div>
+
+    <div class="col-md-3">
+      <h2>グループ</h2>
+      <%= render partial: 'groups/index', locals: { groups: @groups } %>
+      <div style="text-align: right;">
+        <%= link_to 'グループを作成する', new_group_path %>
       </div>
-    <% end %>
-  <% else %>
-    <p>まだ投稿したレシピはありません。</p>
-    <%= link_to "レシピを書く", new_recipe_path, class: 'btn btn-primary my-2' %>
-  <% end %>
+    </div>
+  </div>
 
   <div class="mt-4">
     <%= button_to "退会する", user_path(current_user), method: :delete, data: { confirm: "本当に退会しますか？" }, class: 'btn btn-danger' %>

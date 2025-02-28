@@ -14,6 +14,7 @@ class UsersController < ApplicationController
   def mypage
     @user = current_user
     @user_recipes = @user.recipes
+    @groups = Group.all
   end
 
   def update

@@ -1,0 +1,15 @@
+<%= form_with model: group, local: true do |f| %>
+  <div class="form-group">
+    <%= f.label :グループ名 %>
+    <%= f.text_field :name, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :users, "メンバーを選択（複数選択可）" %>
+    <%= f.collection_select :user_ids, User.all, :id, :name, {prompt: "ユーザーを選択してください"}, {multiple: true, class: 'form-control'} %>
+  </div>
+
+  <div class="form-group">
+    <%= f.submit class: 'btn btn-info' %>
+  </div>
+<% end %>

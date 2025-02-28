@@ -1,0 +1,11 @@
+<div class='container'>
+  <div class='row'>
+    <div class="col-sm-12 col-md-8 col-lg-5 px-5 px-sm-0 mx-auto">
+      <h3>グループ編集</h3>
+        <%= render 'form', group: @group %>
+        <% if @group.owner_id == current_user.id %>
+          <%= link_to "削除", group_path(@group), method: :delete, data: { confirm: "本当に削除してもよろしいですか？" }, class: 'btn btn-danger' %>
+        <% end %>
+    </div>
+  </div>
+</div>
