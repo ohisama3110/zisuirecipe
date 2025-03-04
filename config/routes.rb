@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  namespace :admin do
+    get 'comments/index'
+  end
   get 'relationships/followings'
   get 'relationships/followers'
   devise_for :users
@@ -37,6 +40,7 @@ Rails.application.routes.draw do
     get 'dashboards', to: 'dashboards#index'
     resources :users, only: [:index, :destroy]
     resources :groups, only: [:index, :destroy]
+    resources :comments, only: [:index, :destroy]
   end
 
   resources :groups

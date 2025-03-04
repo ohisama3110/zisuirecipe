@@ -1,0 +1,12 @@
+<div class="text-center">
+  <h1>全コメント一覧</h1>
+  <div class="center-block">
+    <% @comments.each do |comment| %>
+      <li>
+        <%= comment.user.name %>
+        <%= comment.content %>
+        <%= link_to '削除', admin_comment_path(comment), method: :delete, data: { confirm: '本当に削除しますか？' } %>
+      </li>
+    <% end %>
+  </div>
+</div>
