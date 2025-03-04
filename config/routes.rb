@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'relationships/followings'
+  get 'relationships/followers'
   devise_for :users
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   root to: 'homes#top'
@@ -12,7 +14,16 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :users do
+    resource :relationships, only: [:create, :destroy]
+    member do
+      get :following
+      get :followers
+    end
+  end
+
   resources :recipes do
+    resource :favorite, only: [:create, :destroy]
     resources :comments, only: [:create, :destroy]
   end
 
@@ -29,4 +40,6 @@ Rails.application.routes.draw do
   end
 
   resources :groups
+  resources :favorites
+
 end

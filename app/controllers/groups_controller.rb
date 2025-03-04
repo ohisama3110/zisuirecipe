@@ -15,6 +15,7 @@ class GroupsController < ApplicationController
 
   def new
     @group = Group.new
+    @invited_users = @group.available_invited_users
   end
 
   def create

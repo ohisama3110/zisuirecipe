@@ -4,4 +4,7 @@ class Group < ApplicationRecord
 
   validates :name, presence: true
 
+  def available_invited_users
+    User.joins(:followings).where(followings: {follower_id: users})
+  end
 end

@@ -1,0 +1,22 @@
+<div class="col-md-8 mb-4">
+  <a href="/recipes/<%= recipe.id %>" class="card-link text-dark">
+    <div class="card">
+      <div class="row no-gutters">
+        <div class="col-4">
+          <% if recipe.image.attached? %>
+            <%= image_tag recipe.image, class: "card-img-top img-fluid p-3" %>
+          <% else %>
+            <img src="/assets/25480379.jpg" alt="画像の説明" class="card-img-top img-fluid p-3">
+          <% end %>
+        </div>
+        <div class="col-8">
+          <div class="card-body">
+            <h4 class="card-title"><%= recipe.dish_name %></h4>
+            <p class="card-text"><%= recipe.ingredient %></p>
+            <p class="card-text"><%= recipe.servings %></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </a>
+</div>

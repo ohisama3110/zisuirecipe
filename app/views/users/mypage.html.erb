@@ -1,47 +1,20 @@
 <main class="container">
   <h1>マイページ</h1>
 
-  <div class="text-center">
-    <% if @user.image_url.attached? %>
-      <%= image_tag @user.image_url, size: "100x100", class: "img-thumbnail", alt: "レシピ画像" %>
-    <% else %>
-      <%= image_tag '25480379.jpg', size: "100x100", class: "img-thumbnail", alt: "デフォルト画像" %>
-    <% end %>
+  <%= render 'users/user_profile', user: @user, current_user: current_user %>
 
-    <div>
-      <%= @user.name %>
-    </div>
-    <div>
-      <%= @user.introduction %>
-    </div>
+  <%= link_to '編集する', edit_user_path(@user), class: 'btn btn-primary my-2' %>
 
-    <%= link_to '編集する', edit_user_path(@user), class: 'btn btn-primary my-2' %>
-  </div>
 
   <div class="row">
     <div class="col-md-8">
       <h2>レシピ一覧</h2>
       <% if @user_recipes.any? %>
-        <% @user_recipes.each do |recipe| %>
-          <div class="col-md-8 mb-4">
-            <a href="/recipes/<%= recipe.id %>" class="card-link text-dark">
-              <div class="card">
-                <div class="row no-gutters">
-                  <div class="col-4">
-                    <%= image_tag recipe.image, class: "card-img-top img-fluid p-3"; %>
-                  </div>
-                  <div class="col-8">
-                    <div class="card-body">
-                      <h4 class="card-title"><%= recipe.dish_name %></h4>
-                      <p class="card-text"><%= recipe.ingredient %></p>
-                      <p class="card-text"><%= recipe.servings %></p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </a>
-          </div>
-        <% end %>
+        <div class="recipes">
+          <% @user_recipes.each do |recipe| %>
+            <%= render 'recipes/recipe_card', recipe: recipe %>
+          <% end %>
+        </div>
       <% else %>
         <p>まだ投稿したレシピはありません。</p>
         <%= link_to "レシピを書く", new_recipe_path, class: 'btn btn-primary my-2' %>

@@ -3,6 +3,7 @@ class Recipe < ApplicationRecord
   has_one_attached :image
   belongs_to :user
   has_many :comments, dependent: :destroy
+  has_many :favorites, dependent: :destroy
 
   validates :dish_name, presence: true
   validates :image, presence: true
@@ -21,6 +22,10 @@ class Recipe < ApplicationRecord
 
   def self.search(query)
     where("dish_name LIKE ? OR ingredient LIKE ?", "%#{query}%", "%#{query}%")
+  end
+
+  def favorited_by?(user)
+    favorites.exists?(user_id: user.id)
   end
 
 end

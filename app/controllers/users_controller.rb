@@ -17,6 +17,16 @@ class UsersController < ApplicationController
     @groups = Group.all
   end
 
+  def following
+    @user = User.find(params[:id])
+    @users = @user.followings
+  end
+
+  def followers
+    @user = User.find(params[:id])
+    @users = @user.followers
+  end
+
   def update
     @user = User.find(params[:id])
     if @user.update(user_params)
