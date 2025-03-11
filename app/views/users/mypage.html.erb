@@ -1,9 +1,16 @@
 <main class="container">
   <h1>マイページ</h1>
 
+
   <%= render 'users/user_profile', user: @user, current_user: current_user %>
 
   <%= link_to '編集する', edit_user_path(@user), class: 'btn btn-primary my-2' %>
+
+  <nav class="navbar navbar-light bg-light sticky-top justify-content-end">
+    <a href="/recipes/new" id="new-recipe-link" class="navbar-brand">
+      <i class="fas fa-pen-to-square">レシピを書く</i>
+    </a>
+  </nav>
 
 
   <div class="row">
@@ -25,6 +32,9 @@
       <h2>グループ</h2>
       <%= render partial: 'groups/index', locals: { groups: @groups } %>
       <div style="text-align: right;">
+        <% if @group.has_invitation?(current_user) %>
+          <%= link_to 'グループに参加する', accept_invitation_group_path(@group), method: :post %>
+        <% end %>
         <%= link_to 'グループを作成する', new_group_path %>
       </div>
     </div>

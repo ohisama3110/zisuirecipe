@@ -14,7 +14,8 @@ class UsersController < ApplicationController
   def mypage
     @user = current_user
     @user_recipes = @user.recipes
-    @groups = Group.all
+    @groups = @user.groups
+    @group = current_user.groups.first
   end
 
   def following

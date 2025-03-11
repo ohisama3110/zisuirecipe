@@ -1,47 +1,7 @@
 <h1>レシピの編集</h1>
 <div class="col-md-6 offset-md-3 text-center">
   <%= form_with model: @recipe,url: recipe_path(@recipe.id), method: :patch do |f| %>
-    <% if @recipe.errors.any? %>
-    <%= @recipe.errors.count %>error prohibited this obj from being saved:
-      <ul>
-        <% @recipe.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    <% end %>
-
-    <div class="col-md-5" style="margin-top: 20px;">
-      <%= f.text_field :dish_name, class: 'form-control', placeholder: '料理名' %>
-    </div>
-
-    <div class="text-left" style="margin-top: 20px;">
-      <%= f.file_field :image, accept: "image/*", direct_upload: true %>
-    </div>
-
-    <div class="col-md-10" style="margin-top: 20px;">
-      <%= f.text_area :introduction, class: 'form-control', placeholder: 'おすすめポイントや紹介文' %>
-    </div>
-
-    <div class="row">
-      <h4 class="text-left" style="margin-top: 20px;">材料</h4>
-      <div class="col-md-4 col-md-offset-2" >
-        <%= f.text_field :servings, class: 'form-control', placeholder: '何人前' %>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-4">
-        <%= f.text_field :ingredient, class: 'form-control', placeholder: '材料名' %>
-      </div>
-      <div class="col-md-4">
-        <%= f.text_field :quantity, class: 'form-control', placeholder: '分量' %>
-      </div>
-    </div>
-
-    <h4 class="text-left" style="margin-top: 20px;">手順</h4>
-    <div class="col-md-6">
-      <%= f.text_area :process, class: 'form-control', placeholder: '手順' %>
-      <%= f.file_field :image, accept: "image/*", direct_upload: true %>
-    </div>
+    <%= render partial: 'recipes/recipe_form', locals: { f: f, recipe: @recipe } %>
 
     <div style="margin-top: 20px;">
       <%= f.submit '更新する', style: "display: inline-block; margin-right: 10px;" %>

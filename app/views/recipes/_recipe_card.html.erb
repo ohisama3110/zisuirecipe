@@ -12,8 +12,14 @@
         <div class="col-8">
           <div class="card-body">
             <h4 class="card-title"><%= recipe.dish_name %></h4>
-            <p class="card-text"><%= recipe.ingredient %></p>
+            <div class="row">
+              <div class="col">
+                <% ingredients_list = recipe.ingredients.map(&:ingredient).join("、") %>
+                <p class="card-text d-inline-block" style="white-space: normal; max-width: 300px;"><%= ingredients_list %></p>
+              </div>
+            </div>
             <p class="card-text"><%= recipe.servings %></p>
+            <p class="card-text"><%= recipe.user.name %></p>
           </div>
         </div>
       </div>

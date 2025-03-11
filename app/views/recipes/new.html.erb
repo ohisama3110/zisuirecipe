@@ -1,62 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja">
 <h1>おすすめレシピ</h1>
 <%= form_with model: @recipe do |f| %>
-  <% if @recipe.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@recipe.errors.count, "error") %> prohibited this recipe from being saved:</h2>
-      <ul>
-        <% @recipe.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="row justify-content-center">
-    <div class="col-md-5 mt-2 text-center">
-      <%= f.text_field :dish_name, class: 'form-control', placeholder: '料理名' %>
-    </div>
-  </div>
-
-  <div class="row justify-content-center">
-    <div class="col-md-5 mt-2 text-center">
-      <%= f.file_field :image, accept: "image/*" %>
-    </div>
-  </div>
-
-  <div class="row justify-content-center">
-    <div class="col-md-6 mt-2 text-center">
-      <%= f.text_area :introduction, class: 'form-control', placeholder: 'おすすめポイントや紹介文' %>
-    </div>
-  </div>
-
-  <div class="row justify-content-center">
-    <div class="col-md-2 mt-2">
-      <h4>材料</h4>
-    </div>
-    <div class="col-md-2 mt-2">
-      <%= f.text_field :servings, class: 'form-control', placeholder: '何人前' %>
-    </div>
-  </div>
-  <div class="row justify-content-center">
-    <div class="col-md-3 mt-2">
-      <%= f.text_field :ingredient, class: 'form-control', placeholder: '材料名' %>
-    </div>
-    <div class="col-md-3 mt-2">
-      <%= f.text_field :quantity, class: 'form-control', placeholder: '分量' %>
-    </div>
-  </div>
-
-  <h4 class="text-center mt-2">手順</h4>
-  <div class="row justify-content-center">
-    <div class="col-md-6 mt-2">
-      <%= f.text_area :process, class: 'form-control', placeholder: '手順' %>
-      <%= f.file_field :image, accept: "image/*" %>
-    </div>
-  </div>
-
+  <%= render partial: 'recipes/recipe_form', locals: { f: f } %>
   <div class="row justify-content-center">
     <div class="col-md-6 mt-5 text-center">
       <%= f.submit '投稿する' %>
     </div>
   </div>
 <% end %>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // 材料入力フォームを表示するエリアを取得
+    const ingredientArea = document.querySelector('.ingredient-area');
+    // 材料追加ボタンを取得
+    const addIngredientBtn = document.getElementById('add-ingredient-btn');
+
+    // 材料追加ボタンがクリックされたときの処理
+    addIngredientBtn.addEventListener('click', () => {
+
+      // 既存のフォーム数を基に、新しいフォームのインデックスを決定
+      const newIndex = ingredientArea.children.length;
+
+      // 新しい材料入力フォームを作成
+      const newGroup = document.createElement('div');
+      newGroup.className = 'ingredient-group col-md-3';
+      newGroup.dataset.index = newIndex;
+
+      // 材料名の入力フィールド
+      const ingredientInput = document.createElement('input');
+      ingredientInput.type = 'text';
+      ingredientInput.name = `recipe[ingredients_attributes][${newIndex}][ingredient]`;
+      ingredientInput.placeholder = "材料名";
+      ingredientInput.className = "form-control mt-2";
+
+      // 分量の入力フィールド
+      const quantityInput = document.createElement('input');
+      quantityInput.type = 'text';
+      quantityInput.name = `recipe[ingredients_attributes][${newIndex}][quantity]`;
+      quantityInput.placeholder = "分量";
+      quantityInput.className = "form-control mt-2";
+
+      // 削除ボタン
+      const removeButton = document.createElement('button');
+      removeButton.type = 'button';
+      removeButton.textContent = '削除';
+      removeButton.className = 'btn btn-danger mt-2';
+      removeButton.addEventListener('click', () => {
+        newGroup.remove();
+      });
+
+      // フィールドをグループに追加
+      newGroup.appendChild(ingredientInput);
+      newGroup.appendChild(quantityInput);
+      newGroup.appendChild(removeButton);
+
+      // 新しいフォームをエリアに追加
+      ingredientArea.appendChild(newGroup);
+    });
+  });
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+
+    const stepArea = document.querySelector('.step-area');
+    const addstepBtn = document.getElementById('add-step-btn');
+
+    addstepBtn.addEventListener('click', (e) => {
+      const newIndex = stepArea.children.length;
+
+      const newGroup = document.createElement('div');
+      newGroup.className = 'step-group';
+      newGroup.dataset.index = newIndex;
+
+      const stepInput = document.createElement('textarea');
+      stepInput.name = `recipe[steps_attributes][${newIndex}][process]`;
+      stepInput.placeholder = "手順";
+      stepInput.className = "form-control mt-2";
+
+      const imageInput = document.createElement('input');
+      imageInput.type = 'file';
+      imageInput.name = `recipe[steps_attributes][${newIndex}][step_image]`;
+      imageInput.accept = "image/*";
+      imageInput.className = "form-control mt-2";
+
+      const removeButton = document.createElement('button');
+      removeButton.type = 'button';
+      removeButton.textContent = '削除';
+      removeButton.className = 'btn btn-danger mt-2';
+
+      removeButton.addEventListener('click', () => {
+        newGroup.remove();
+      });
+
+      newGroup.appendChild(stepInput);
+      newGroup.appendChild(imageInput);
+      newGroup.appendChild(removeButton);
+
+      stepArea.appendChild(newGroup);
+    });
+  });
+</script>

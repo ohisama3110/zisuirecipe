@@ -46,4 +46,7 @@ Rails.application.routes.draw do
   resources :groups
   resources :favorites
 
+  resources :groups do
+    post 'accept_invitation', on: :member
+  end
 end

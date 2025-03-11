@@ -7,35 +7,7 @@
   <% end %>
   <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 justify-content-center">
     <% @results.each do |recipe| %>
-      <div class="card w-75 mx-auto mt-4 shadow-lg">
-        <div class="row">
-          <div class="col-6">
-            <% if recipe.image.attached? %>
-              <%= image_tag recipe.image, class: "card-img-top img-fluid p-3"; %>
-            <% else %>
-              <img src="/assets/25480379.jpg" alt="画像の説明" width="200" height="200">
-            <% end %>
-          </div>
-          <div class="col-6">
-            <div class="card-body">
-              <h5 class="card-title"><%= link_to recipe.dish_name, recipe_path(recipe) %></h5>
-              <p class="card-text"><%= recipe.ingredient %></p>
-              <p class="card-text"><%= recipe.servings %></p>
-              <p class="card-text">
-                <% if current_user == recipe.user %>
-                  <%= link_to mypage_path do %>
-                    <%= recipe.user.name %>
-                  <% end %>
-                <% else %>
-                  <%= link_to user_path(recipe.user.id) do %>
-                    <%= recipe.user.name %>
-                  <% end %>
-                <% end %>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
+      <%= render 'recipes/recipe_card', recipe: recipe %>
     <% end %>
   </div>
 </main>

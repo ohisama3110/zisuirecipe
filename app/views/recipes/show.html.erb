@@ -12,15 +12,28 @@
         <%= @recipe.servings %>
       </div>
     </div>
-    <div class="row" style="margin-top: 10px;">
-      <div class="col-md-6 mt-2">
-        <%= @recipe.ingredient %>
-        <%= @recipe.quantity %>
+    <div class="row" style="margin-top: 20px;">
+      <div class="col-md-6">
+        <% @recipe.ingredients.each do |ingredient| %>
+          <p><strong><%= ingredient.ingredient %>：</strong><%= ingredient.quantity %></p>
+        <% end %>
       </div>
     </div>
 
-    <h4 style="margin-top: 20px;">手順</h4>
-    <%= @recipe.process %>
+
+    <div class="row" style="margin-top: 20px;">
+      <div class="col-md-6">
+        <h4>手順</h4>
+        <% @recipe.steps.each.with_index(1) do |step, index| %>
+          <p><strong>ステップ<%= index %></strong>: <%= step.process %></p>
+        <% end %>
+        <% if @recipe.step_image.attached? %>
+          <div class="col-4">
+            <%= image_tag @recipe.step_image, class: "img-fluid" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
 
     <% if @recipe.user == current_user %>
       <div class="edit" style="margin-top: 20px;">

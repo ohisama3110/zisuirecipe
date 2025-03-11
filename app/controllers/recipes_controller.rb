@@ -4,6 +4,8 @@ class RecipesController < ApplicationController
 
   def new
     @recipe = Recipe.new
+    @recipe.ingredients.build
+    @recipe.steps.build
   end
 
   def index
@@ -18,6 +20,7 @@ class RecipesController < ApplicationController
   def create
     @recipe = Recipe.new(recipe_params)
     @recipe.user_id = current_user.id
+    #byebug
     if @recipe.save
       redirect_to @recipe, notice: 'Recipe was successfully created.'
     else
@@ -48,7 +51,7 @@ class RecipesController < ApplicationController
   private
 
   def recipe_params
-    params.require(:recipe).permit(:dish_name, :image, :introduction, :ingredient, :quantity, :process, :servings)
+    params.require(:recipe).permit(:dish_name, :image, :introduction, :servings, ingredients_attributes: [:id, :ingredient, :quantity], steps_attributes: [:id, :process, :step_image])
   end
 
   def is_matching_login_user

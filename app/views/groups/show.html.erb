@@ -23,6 +23,11 @@
       <% if @group.owner_id == current_user.id %>
         <%= link_to 'メンバー編集', edit_group_path(@group), class: "btn btn-sm btn-success" %>
       <% end %>
+      <nav class="navbar navbar-light bg-light sticky-top justify-content-end">
+        <a href="/recipes/new" id="new-recipe-link" class="navbar-brand">
+          <i class="fas fa-pen-to-square">レシピを書く</i>
+        </a>
+      </nav>
     </div>
   </div>
 </div>

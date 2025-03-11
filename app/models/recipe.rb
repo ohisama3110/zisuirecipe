@@ -1,15 +1,16 @@
 class Recipe < ApplicationRecord
 
   has_one_attached :image
+  has_one_attached :step_image
   belongs_to :user
   has_many :comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
+  has_many :ingredients, dependent: :destroy
+  has_many :steps, dependent: :destroy
+  accepts_nested_attributes_for :ingredients, :steps
 
   validates :dish_name, presence: true
   validates :image, presence: true
-  validates :ingredient, presence: true
-  validates :quantity, presence: true
-  validates :process, presence: true
   validates :servings, presence: true
 
   def get_image

@@ -8,36 +8,7 @@
     </div>
 
     <% if @users.present? %>
-      <% @users.each do |user| %>
-        <div class="card">
-          <div class="row">
-            <div class="col-3">
-              <div class="user-image text-left">
-                <% if user.image_url.attached? %>
-                  <%= image_tag user.image_url, size: "70x70", class: "img-thumbnail", alt: "ユーザー画像" %>
-                <% else %>
-                  <%= image_tag '25480379.jpg', size: "70x70", class: "img-thumbnail", alt: "デフォルト画像" %>
-                <% end %>
-              </div>
-            </div>
-            <div class="col-5">
-              <div class="user-details text-left">
-                <h4><%= user.name %></h4>
-                <p>投稿したレシピ :<%= user.recipes.count %></p>
-              </div>
-            </div>
-            <div class="col-3">
-              <% unless current_user == user %>
-                <% if current_user.following?(user) %>
-                  <%= link_to "フォロー中", user_relationships_path(user), method: :delete, class: "btn btn-danger" %>
-                <% else %>
-                  <%= link_to "フォローする", user_relationships_path(user), method: :post, class: "btn btn-primary" %>
-                <% end %>
-              <% end %>
-            </div>
-          </div>
-        </div>
-      <% end %>
+      <%= render 'user_index', user: @user, current_user: current_user %>
     <% else %>
       <p>まだフォロワーはいません</p>
     <% end %>

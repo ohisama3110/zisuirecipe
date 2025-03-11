@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_03_01_125426) do
+ActiveRecord::Schema.define(version: 2025_03_10_094621) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -68,6 +68,12 @@ ActiveRecord::Schema.define(version: 2025_03_01_125426) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "followings", force: :cascade do |t|
+    t.integer "follower_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "group_users", force: :cascade do |t|
     t.integer "user_id"
     t.integer "group_id"
@@ -84,6 +90,24 @@ ActiveRecord::Schema.define(version: 2025_03_01_125426) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "ingredients", force: :cascade do |t|
+    t.string "ingredient", null: false
+    t.string "quantity", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "recipe_id"
+    t.index ["recipe_id"], name: "index_ingredients_on_recipe_id"
+  end
+
+  create_table "invitations", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "group_id", null: false
+    t.integer "user_id", null: false
+    t.index ["group_id"], name: "index_invitations_on_group_id"
+    t.index ["user_id"], name: "index_invitations_on_user_id"
+  end
+
   create_table "recipes", force: :cascade do |t|
     t.string "title"
     t.text "introduction"
@@ -95,6 +119,7 @@ ActiveRecord::Schema.define(version: 2025_03_01_125426) do
     t.string "process"
     t.integer "user_id", null: false
     t.string "servings"
+    t.binary "step_image"
     t.index ["user_id"], name: "index_recipes_on_user_id"
   end
 
@@ -103,6 +128,14 @@ ActiveRecord::Schema.define(version: 2025_03_01_125426) do
     t.integer "followed_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "steps", force: :cascade do |t|
+    t.string "process"
+    t.integer "recipe_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["recipe_id"], name: "index_steps_on_recipe_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -124,5 +157,9 @@ ActiveRecord::Schema.define(version: 2025_03_01_125426) do
   add_foreign_key "comments", "recipes"
   add_foreign_key "group_users", "groups"
   add_foreign_key "group_users", "users"
+  add_foreign_key "ingredients", "recipes"
+  add_foreign_key "invitations", "groups"
+  add_foreign_key "invitations", "users"
   add_foreign_key "recipes", "users"
+  add_foreign_key "steps", "recipes"
 end

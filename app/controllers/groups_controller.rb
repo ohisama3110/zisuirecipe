@@ -4,7 +4,8 @@ class GroupsController < ApplicationController
 
   def index
     @recipe = Recipe.new
-    @groups = Group.all
+    @user = current_user
+    @groups = @user.groups
   end
 
   def show
@@ -50,6 +51,12 @@ class GroupsController < ApplicationController
     @group = Group.find(params[:id])
     @group.destroy
     redirect_to '/mypage', notice: "グループが削除されました"
+  end
+
+  def accept_invitation
+    @group = Group.find(params[:id])
+    current_user.groups << @group
+    redirect_to groups_path, notice: 'グループに参加しました'
   end
 
   private
