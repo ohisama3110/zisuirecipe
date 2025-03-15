@@ -4,7 +4,19 @@
   <div class="container" style="position: relative; padding-top: 20px;">
     <%= image_tag @recipe.image, class: "img-fluid", size: "300x300" %>
     <h2 style="margin-top: 20px;"><%= @recipe.dish_name %></h2>
-    <p style="margin-top: 20px;"><%= @recipe.introduction %></p>
+    <div style="display: flex; align-items: center; margin-top: 20px;">
+      <%= link_to(@user == current_user ? mypage_path : user_path(user), class: "text-decoration-none") do %>
+        <% if @user.image_url.present? %>
+          <%= image_tag @user.image_url, size: "40x40" %>
+        <% else %>
+          <%= image_tag '25480379.jpg', size: "40x40" %>
+        <% end %>
+        <span style="margin-left: 10px;"><%= @user.name %></span>
+        <span style="margin-left: 10px;">(<%= @user.display_user_id %>)</span>
+      <% end %>
+    </div>
+    <h4 style="margin-top: 40px;">おすすめポイント</h4>
+    <p style="margin-top: 40px;"><%= @recipe.introduction %></p>
 
     <div class="row" style="margin-top: 20px;">
       <div class="col-md-6" style="display: flex; align-items: center;">
@@ -26,11 +38,11 @@
         <h4>手順</h4>
         <% @recipe.steps.each.with_index(1) do |step, index| %>
           <p><strong>ステップ<%= index %></strong>: <%= step.process %></p>
-        <% end %>
-        <% if @recipe.step_image.attached? %>
-          <div class="col-4">
-            <%= image_tag @recipe.step_image, class: "img-fluid" %>
-          </div>
+          <% if step.step_image.attached? %>
+            <div class="col-4">
+              <%= image_tag step.step_image, class: "img-fluid" %>
+            </div>
+          <% end %>
         <% end %>
       </div>
     </div>
@@ -48,13 +60,13 @@
     <% if @recipe.favorited_by?(current_user) %>
       <p>
         <%= link_to recipe_favorite_path(@recipe), method: :delete do %>
-          ♥<%= @recipe.favorites.count %> お気に入り
+          ★<%= @recipe.favorites.count %> お気に入り
         <% end %>
       </p>
       <% else %>
       <p>
         <%= link_to recipe_favorite_path(@recipe), method: :post do %>
-          ♡<%= @recipe.favorites.count %> お気に入り
+          ☆<%= @recipe.favorites.count %> お気に入り
         <% end %>
       </p>
     <% end %>

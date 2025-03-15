@@ -23,11 +23,16 @@
       <% if @group.owner_id == current_user.id %>
         <%= link_to 'メンバー編集', edit_group_path(@group), class: "btn btn-sm btn-success" %>
       <% end %>
-      <nav class="navbar navbar-light bg-light sticky-top justify-content-end">
-        <a href="/recipes/new" id="new-recipe-link" class="navbar-brand">
-          <i class="fas fa-pen-to-square">レシピを書く</i>
-        </a>
-      </nav>
+    </div>
+    <nav class="navbar navbar-light bg-light sticky-top justify-content-end">
+      <a href="/recipes/new" id="new-recipe-link" class="navbar-brand">
+        <i class="fas fa-pen-to-square">レシピを書く</i>
+      </a>
+    </nav>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 justify-content-center">
+      <% @recipes.each do |recipe| %>
+        <%= render partial: 'recipes/recipe_card', locals: { recipe: recipe } %>
+      <% end %>
     </div>
   </div>
 </div>

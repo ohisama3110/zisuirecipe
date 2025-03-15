@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_03_10_094621) do
+ActiveRecord::Schema.define(version: 2025_03_13_093809) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -104,8 +104,21 @@ ActiveRecord::Schema.define(version: 2025_03_10_094621) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "group_id", null: false
     t.integer "user_id", null: false
+    t.string "status", default: "pending"
+    t.integer "recipient_id"
+    t.boolean "read", default: false
     t.index ["group_id"], name: "index_invitations_on_group_id"
+    t.index ["recipient_id"], name: "index_invitations_on_recipient_id"
     t.index ["user_id"], name: "index_invitations_on_user_id"
+  end
+
+  create_table "notifications", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.text "content"
+    t.boolean "read"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
   create_table "recipes", force: :cascade do |t|
@@ -120,6 +133,7 @@ ActiveRecord::Schema.define(version: 2025_03_10_094621) do
     t.integer "user_id", null: false
     t.string "servings"
     t.binary "step_image"
+    t.boolean "public"
     t.index ["user_id"], name: "index_recipes_on_user_id"
   end
 
@@ -135,6 +149,7 @@ ActiveRecord::Schema.define(version: 2025_03_10_094621) do
     t.integer "recipe_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "step_image"
     t.index ["recipe_id"], name: "index_steps_on_recipe_id"
   end
 
@@ -160,6 +175,7 @@ ActiveRecord::Schema.define(version: 2025_03_10_094621) do
   add_foreign_key "ingredients", "recipes"
   add_foreign_key "invitations", "groups"
   add_foreign_key "invitations", "users"
+  add_foreign_key "notifications", "users"
   add_foreign_key "recipes", "users"
   add_foreign_key "steps", "recipes"
 end

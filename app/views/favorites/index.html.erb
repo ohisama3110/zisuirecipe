@@ -1,22 +1,10 @@
-<h1>お気に入り一覧</h1>
+<h1>お気に入りレシピ</h1>
 <% if @favorite_recipes.present? %>
-  <% @favorite_recipes.each do |recipe| %>
-    <div class="card w-75 mx-auto mt-4 shadow-lg">
-      <div class="row">
-        <div class="col-6">
-          <%= image_tag recipe.image, class: "card-img-top img-fluid p-3" %>
-        </div>
-        <div class="col-6">
-          <div class="card-body">
-            <h5 class="card-title"><%= link_to recipe.dish_name, recipe %></h5>
-            <p class="card-text"><%= recipe.ingredient %></p>
-            <p class="card-text"><%= recipe.servings %></p>
-            <p class="card-text"><%= recipe.user.name %></p>
-          </div>
-        </div>
-      </div>
-    </div>
-  <% end %>
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 justify-content-center">
+    <% @favorite_recipes.each do |recipe| %>
+      <%= render partial: 'recipes/recipe_card', locals: { recipe: recipe } %>
+    <% end %>
+  </div>
 <% else %>
   <p><%= @no_favorite_message %></p>
   <p><%= link_to "みんなのレシピを見る", recipes_path %></p>

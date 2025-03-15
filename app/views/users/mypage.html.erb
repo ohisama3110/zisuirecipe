@@ -32,8 +32,14 @@
       <h2>グループ</h2>
       <%= render partial: 'groups/index', locals: { groups: @groups } %>
       <div style="text-align: right;">
-        <% if @group.has_invitation?(current_user) %>
-          <%= link_to 'グループに参加する', accept_invitation_group_path(@group), method: :post %>
+        <% @notifications.each do |notification| %>
+          <div>
+            <p><%= notification.content %></p>
+            <%= form_for(notification) do |f| %>
+              <%= f.hidden_field :read, value: true %>
+              <%= f.submit "参加する", class: 'btn btn-success' %>
+            <% end %>
+          </div>
         <% end %>
         <%= link_to 'グループを作成する', new_group_path %>
       </div>

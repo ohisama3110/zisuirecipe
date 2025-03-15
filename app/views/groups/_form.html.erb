@@ -6,10 +6,10 @@
 
   <div class="form-group">
     <%= f.label :users, "メンバーを選択（複数選択可）" %>
-    <%= f.collection_select :user_ids, User.all, :id, :name, {prompt: "ユーザーを選択してください"}, {multiple: true, class: 'form-control'} %>
+    <%= f.collection_select :user_ids,[current_user] + current_user.followers , :id, :name, {prompt: "ユーザーを選択してください"}, {multiple: true, class: 'form-control'} %>
   </div>
 
   <div class="form-group">
-    <%= f.submit class: 'btn btn-info' %>
+    <%= f.submit '更新する', class: 'btn btn-info' %>
   </div>
 <% end %>

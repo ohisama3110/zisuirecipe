@@ -1,5 +1,5 @@
 <div class="col-md-8 mb-4">
-  <a href="/recipes/<%= recipe.id %>" class="card-link text-dark">
+  <a href="/recipes/<%= recipe.id %>" class="card-link text-dark text-decoration-none">
     <div class="card">
       <div class="row no-gutters">
         <div class="col-4">
@@ -11,15 +11,20 @@
         </div>
         <div class="col-8">
           <div class="card-body">
-            <h4 class="card-title"><%= recipe.dish_name %></h4>
-            <div class="row">
-              <div class="col">
-                <% ingredients_list = recipe.ingredients.map(&:ingredient).join("、") %>
-                <p class="card-text d-inline-block" style="white-space: normal; max-width: 300px;"><%= ingredients_list %></p>
+            <div class="col">
+              <h4 class="card-title"><%= recipe.dish_name %></h4>
+              <% ingredients_list = recipe.ingredients.map(&:ingredient).join("、") %>
+              <p class="card-text d-inline-block" style="white-space: normal; max-width: 300px;"><%= ingredients_list %></p>
+              <p class="card-text"><%= recipe.servings %></p>
+              <div class="col-auto">
+                <% if recipe.user.image_url.attached? %>
+                  <%= image_tag recipe.user.image_url, size: "30x30", class: "mr-2" %> <!-- 画像を小さくして横に余白を追加 -->
+                <% else %>
+                  <%= image_tag '25480379.jpg', size: "30x30", class: "mr-2" %> <!-- デフォルト画像を小さくして横に余白を追加 -->
+                <% end %>
+                <p class="card-text d-inline-block"><%= recipe.user.name %></p> <!-- ユーザーネームを横に表示 -->
               </div>
             </div>
-            <p class="card-text"><%= recipe.servings %></p>
-            <p class="card-text"><%= recipe.user.name %></p>
           </div>
         </div>
       </div>

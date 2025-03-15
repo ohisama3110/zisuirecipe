@@ -11,7 +11,7 @@ class User < ApplicationRecord
   has_many :group_users, dependent: :destroy
   has_many :groups, through: :group_users
   has_many :favorites, dependent: :destroy
-  has_many :invitations
+  has_many :invitations, foreign_key: :recipient_id
 
   has_many :relationships, class_name: "Relationship", foreign_key: "follower_id", dependent: :destroy
   has_many :reverse_relationships, class_name: "Relationship", foreign_key: "followed_id", dependent: :destroy
@@ -41,5 +41,9 @@ class User < ApplicationRecord
 
   def display_user_id
     "@zisui#{sprintf('%04d', id)}"
+  end
+
+  def send_invitation(group)
+    invitations.create(group: group, status: 'pending')
   end
 end

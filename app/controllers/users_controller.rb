@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user!, only: [:edit]
+  before_action :authenticate_user!, only: [:mypage, :show, :edit]
   before_action :is_matching_login_user, only: [:edit, :update, :destroy]
 
   def show
@@ -16,6 +16,7 @@ class UsersController < ApplicationController
     @user_recipes = @user.recipes
     @groups = @user.groups
     @group = current_user.groups.first
+    @notifications = current_user.invitations.where(read: false)
   end
 
   def following
@@ -47,6 +48,10 @@ class UsersController < ApplicationController
   private
     def user_params
       params.require(:user).permit(:name, :introduction, :profile_image)
+    end
+
+    def authenticate_user
+      redirect_to new_user_session_path unless user_signed_in?
     end
 
     def is_matching_login_user

@@ -12,6 +12,7 @@ class GroupsController < ApplicationController
     @recipe = Recipe.new
     @group = Group.find(params[:id])
     @group_users = @group.users
+    @recipes = Recipe.where(user_id: @group_users.pluck(:id))
   end
 
   def new
@@ -29,7 +30,7 @@ class GroupsController < ApplicationController
           @group.users << User.find(user_id)
         end
       end
-      redirect_to groups_path
+      redirect_to group_path(@group)
     else
       render 'new'
     end
@@ -41,7 +42,7 @@ class GroupsController < ApplicationController
 
   def update
     if @group.update(group_params)
-      redirect_to groups_path
+      redirect_to group_path(@group)
     else
       render "edit"
     end

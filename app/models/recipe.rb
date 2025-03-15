@@ -21,6 +21,14 @@ class Recipe < ApplicationRecord
     image
   end
 
+  def get_step_image
+    unless step_image.attached?
+      file_path = Rails.root.join('path/to/default_image.jpg')
+      step_image.attach(io: File.open(file_path), filename: 'default-step-image.jpg', content_type: 'image/jpeg')
+    end
+    step_image
+  end
+
   def self.search(query)
     where("dish_name LIKE ? OR ingredient LIKE ?", "%#{query}%", "%#{query}%")
   end

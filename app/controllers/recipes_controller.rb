@@ -14,13 +14,13 @@ class RecipesController < ApplicationController
 
   def show
     @recipe = Recipe.find(params[:id])
+    @user = User.find(@recipe.user_id) if @recipe.user_id.present?
     @comment = Comment.new
   end
 
   def create
     @recipe = Recipe.new(recipe_params)
     @recipe.user_id = current_user.id
-    #byebug
     if @recipe.save
       redirect_to @recipe, notice: 'Recipe was successfully created.'
     else

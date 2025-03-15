@@ -1,71 +1,170 @@
-  <% if @recipe.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@recipe.errors.count, "error") %> prohibited this recipe from being saved:</h2>
-      <ul>
-        <% @recipe.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="row justify-content-center">
-    <div class="col-md-5 mt-2 text-center">
-      <%= f.text_field :dish_name, class: 'form-control', placeholder: '料理名' %>
-    </div>
+<% if @recipe.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@recipe.errors.count, "error") %> prohibited this recipe from being saved:</h2>
+    <ul>
+      <% @recipe.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
   </div>
+<% end %>
 
-  <div class="row justify-content-center">
-    <div class="col-md-5 mt-2 text-center">
-      <%= f.file_field :image, accept: "image/*" %>
-    </div>
+<div class="row justify-content-center">
+  <div class="col-md-5 mt-2 text-center">
+    <%= f.text_field :dish_name, class: 'form-control', placeholder: '料理名' %>
   </div>
+</div>
 
-  <div class="row justify-content-center">
-    <div class="col-md-6 mt-2 text-center">
-      <%= f.text_area :introduction, class: 'form-control', placeholder: 'おすすめポイントや紹介文' %>
-    </div>
+<div class="row justify-content-center">
+  <div class="col-md-5 mt-2 text-center">
+    <%= f.file_field :image, accept: "image/*" %>
   </div>
+</div>
 
-  <div class="row justify-content-center">
-    <div class="col-md-2 mt-2">
-      <h4>材料</h4>
-    </div>
-    <div class="col-md-2 mt-2">
-      <%= f.text_field :servings, class: 'form-control', placeholder: '何人前' %>
-    </div>
+<div class="row justify-content-center">
+  <div class="col-md-6 mt-2 text-center">
+    <%= f.text_area :introduction, class: 'form-control', placeholder: 'おすすめポイントや紹介文' %>
   </div>
-  <div class="row justify-content-center">
-    <div class="ingredient-area">
-      <%= f.fields_for :ingredients do |form| %>
-        <div class="row justify-content-center">
-          <div class="ingredient-group col-md-3" data-index="<%= form.index %>">
-            <%= form.text_field :ingredient, class: 'form-control', placeholder: '材料' %>
-          </div>
-          <div class="quantity-group col-md-3" data-index="<%= form.index %>">
-            <%= form.text_field :quantity, class: 'form-control', placeholder: '分量' %>
-          </div>
+</div>
+
+<div class="row justify-content-center">
+  <div class="col-md-2 mt-2">
+    <h4>材料</h4>
+  </div>
+  <div class="col-md-2 mt-2">
+    <%= f.text_field :servings, class: 'form-control', placeholder: '何人前' %>
+  </div>
+</div>
+<div class="row justify-content-center ingredient-form">
+  <div class="ingredient-area">
+    <%= f.fields_for :ingredients do |form| %>
+      <div class="row justify-content-center">
+        <div class="ingredient-group col-md-3" data-index="<%= form.index %>">
+          <%= form.text_field :ingredient, class: 'form-control', placeholder: '材料' %>
+        </div>
+        <div class="quantity-group col-md-3" data-index="<%= form.index %>">
+          <%= form.text_field :quantity, class: 'form-control', placeholder: '分量' %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <div class="text-center">
+    <button type="button" id="add-ingredient-btn">材料を追加する</button>
+  </div>
+</div>
+
+<h4 class="text-center mt-2">手順</h4>
+<div class="row justify-content-center">
+  <div class="col-md-6 mt-2">
+    <div class="step-area">
+      <%= f.fields_for :steps do |form| %>
+        <div class="step-group" data-index="<%= form.index %>">
+          <%= form.text_area :process, class: 'form-control', placeholder: '手順' %>
+          <%= form.file_field :step_image, accept: "image/*" %>
         </div>
       <% end %>
     </div>
     <div class="text-center">
-      <button type="button" id="add-ingredient-btn">材料を追加する</button>
+      <button type="button" id="add-step-btn">＋ 追加する</button>
     </div>
   </div>
+</div>
 
-  <h4 class="text-center mt-2">手順</h4>
-  <div class="row justify-content-center">
-    <div class="col-md-6 mt-2">
-      <div class="step-area">
-        <%= f.fields_for :steps do |form| %>
-          <div class="step-group" data-index="<%= form.index %>">
-            <%= form.text_area :process, class: 'form-control', placeholder: '手順' %>
-            <%= form.file_field :step_image, accept: "image/*" %>
-          </div>
-        <% end %>
-      </div>
-      <div class="text-center">
-        <button type="button" id="add-step-btn">＋ 追加する</button>
-      </div>
-    </div>
-  </div>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const addIngredientBtn = document.getElementById('add-ingredient-btn');
+
+    addIngredientBtn.addEventListener('click', () => {
+      const ingredientArea = document.querySelector('.ingredient-area');
+      const newIndex = ingredientArea.children.length;
+
+      const newFormContainer = document.createElement('div');
+      newFormContainer.className = 'row justify-content-center mb-3';
+
+      const ingredientGroup = document.createElement('div');
+      ingredientGroup.className = 'ingredient-group col-md-3';
+      ingredientGroup.dataset.index = newIndex;
+
+      const ingredientInput = document.createElement('input');
+      ingredientInput.type = 'text';
+      ingredientInput.name = `recipe[ingredients_attributes][${newIndex}][ingredient]`;
+      ingredientInput.placeholder = '材料名';
+      ingredientInput.className = 'form-control';
+
+      const quantityGroup = document.createElement('div');
+      quantityGroup.className = 'quantity-group col-md-3';
+      quantityGroup.dataset.index = newIndex;
+
+      const quantityInput = document.createElement('input');
+      quantityInput.type = 'text';
+      quantityInput.name = `recipe[ingredients_attributes][${newIndex}][quantity]`;
+      quantityInput.placeholder = '分量';
+      quantityInput.className = 'form-control';
+
+      const removeBtnGroup = document.createElement('div');
+      removeBtnGroup.className = 'quantity-group col-md-3';
+      removeBtnGroup.dataset.index = newIndex;
+      // 削除ボタン
+      const removeButton = document.createElement('button');
+      removeButton.type = 'button';
+      removeButton.textContent = '削除';
+      removeButton.className = 'btn btn-danger mt-2';
+
+      removeButton.addEventListener('click', () => {
+        newFormContainer.remove(); // 削除ボタンが属する親要素を削除
+      });
+
+      ingredientGroup.appendChild(ingredientInput);
+      quantityGroup.appendChild(quantityInput);
+      removeBtnGroup.appendChild(removeButton);
+
+      newFormContainer.appendChild(ingredientGroup);
+      newFormContainer.appendChild(quantityGroup);
+      newFormContainer.appendChild(removeBtnGroup); // 削除ボタンを追加
+
+      ingredientArea.appendChild(newFormContainer);
+    });
+  });
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+
+    const stepArea = document.querySelector('.step-area');
+    const addstepBtn = document.getElementById('add-step-btn');
+
+    addstepBtn.addEventListener('click', (e) => {
+      const newIndex = stepArea.children.length;
+
+      const newGroup = document.createElement('div');
+      newGroup.className = 'step-group';
+      newGroup.dataset.index = newIndex;
+
+      const stepInput = document.createElement('textarea');
+      stepInput.name = `recipe[steps_attributes][${newIndex}][process]`;
+      stepInput.placeholder = "手順";
+      stepInput.className = "form-control mt-2";
+
+      const imageInput = document.createElement('input');
+      imageInput.type = 'file';
+      imageInput.name = `recipe[steps_attributes][${newIndex}][step_image]`;
+      imageInput.accept = "image/*";
+      imageInput.className = "form-control mt-2";
+
+      const removeButton = document.createElement('button');
+      removeButton.type = 'button';
+      removeButton.textContent = '削除';
+      removeButton.className = 'btn btn-danger mt-2';
+
+      removeButton.addEventListener('click', () => {
+        newGroup.remove();
+      });
+
+      newGroup.appendChild(stepInput);
+      newGroup.appendChild(imageInput);
+      newGroup.appendChild(removeButton);
+
+      stepArea.appendChild(newGroup);
+    });
+  });
+</script>
