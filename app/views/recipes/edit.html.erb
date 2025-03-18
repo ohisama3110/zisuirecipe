@@ -1,7 +1,7 @@
 <h1>レシピの編集</h1>
 <%= form_with model: @recipe,url: recipe_path(@recipe.id), method: :patch do |f| %>
   <%= render partial: 'recipes/recipe_form', locals: { f: f, recipe: @recipe } %>
-  <div style="margin-top: 20px;">
+  <div class="col-md-6 mt-5 text-center">
     <%= f.submit '更新する', style: "display: inline-block; margin-right: 10px;" %>
     <%= link_to "戻る", recipe_path(@recipe), style: "display: inline-block;" %>
   </div>
