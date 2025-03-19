@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_03_13_093809) do
+ActiveRecord::Schema.define(version: 2025_03_19_055241) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -134,6 +134,7 @@ ActiveRecord::Schema.define(version: 2025_03_13_093809) do
     t.string "servings"
     t.binary "step_image"
     t.boolean "public"
+    t.boolean "is_public", default: false
     t.index ["user_id"], name: "index_recipes_on_user_id"
   end
 

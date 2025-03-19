@@ -9,7 +9,11 @@ class RecipesController < ApplicationController
   end
 
   def index
-    @recipes = Recipe.all
+    if params[:sort] == 'favorites'
+      @recipes = Recipe.joins(:favorites).group('recipes.id').order('count(favorites.id) DESC')
+    else
+      @recipes = Recipe.all
+    end
   end
 
   def show
