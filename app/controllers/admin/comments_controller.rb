@@ -1,6 +1,10 @@
 class Admin::CommentsController < ApplicationController
   def index
-    @comments = Comment.all
+    if params[:search].present?
+      @comments = Comment.where("content LIKE ?", "%#{params[:search]}%")
+    else
+      @comments = Comment.all
+    end
   end
 
 

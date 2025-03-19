@@ -1,6 +1,10 @@
 class Admin::GroupsController < ApplicationController
   def index
-    @groups = Group.all
+    if params[:search].present?
+      @groups = Group.where("name LIKE ?", "%#{params[:search]}%")
+    else
+      @groups = Group.all
+    end
   end
 
   def destroy

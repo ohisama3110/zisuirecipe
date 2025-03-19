@@ -1,11 +1,15 @@
 <div class="text-center">
   <h1>全グループ一覧</h1>
-  <tbody>
+  <div class="center-block">
+    <%= form_tag(admin_groups_path, method: :get) do %>
+      <%= text_field_tag :search, params[:search], placeholder: "グループを検索する" %>
+      <%= submit_tag "検索" %>
+    <% end %>
     <% @groups.each do |group| %>
       <li>
         <%= group.name %>
         <%= link_to '削除', admin_group_path(group), method: :delete, data: { confirm: '本当に削除しますか？' } %>
       </li>
     <% end %>
-  </tbody>
+  </div>
 </div>

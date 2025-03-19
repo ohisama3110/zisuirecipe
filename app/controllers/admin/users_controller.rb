@@ -2,7 +2,11 @@ class Admin::UsersController < ApplicationController
   before_action :authenticate_admin!
 
   def index
-    @users = User.all
+    if params[:search].present?
+      @users = User.where("name LIKE ?", "%#{params[:search]}%")
+    else
+      @users = User.all
+    end
   end
 
   def destroy
