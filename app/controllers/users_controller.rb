@@ -4,7 +4,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @user_recipes = @user.recipes
+    @user_recipes = @user.recipes.order(created_at: :desc)
   end
 
   def edit
@@ -13,7 +13,7 @@ class UsersController < ApplicationController
 
   def mypage
     @user = current_user
-    @user_recipes = @user.recipes
+    @user_recipes = @user.recipes.order(created_at: :desc)
     @groups = @user.groups
     @group = current_user.groups.first
     @notifications = current_user.invitations.where(read: false)

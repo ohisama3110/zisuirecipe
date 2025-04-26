@@ -1,4 +1,6 @@
 class Admin::CommentsController < ApplicationController
+  before_action :authenticate_admin!
+
   def index
     if params[:search].present?
       @comments = Comment.where("content LIKE ?", "%#{params[:search]}%")

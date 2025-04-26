@@ -12,7 +12,7 @@ class RecipesController < ApplicationController
     if params[:sort] == 'favorites'
       @recipes = Recipe.joins(:favorites).group('recipes.id').order('count(favorites.id) DESC')
     else
-      @recipes = Recipe.all
+      @recipes = Recipe.order(created_at: :desc)
     end
   end
 

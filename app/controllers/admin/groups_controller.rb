@@ -1,4 +1,6 @@
 class Admin::GroupsController < ApplicationController
+  before_action :authenticate_admin!
+
   def index
     if params[:search].present?
       @groups = Group.where("name LIKE ?", "%#{params[:search]}%")
