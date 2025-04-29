@@ -8,6 +8,7 @@ class GroupsController < ApplicationController
     @groups = @user.groups
   end
 
+
   def show
     @recipe = Recipe.new
     @group = Group.find(params[:id])
