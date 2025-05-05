@@ -20,7 +20,7 @@
       <% end %>
     </div>
     <h4 style="margin-top: 40px;">おすすめポイント</h4>
-    <p style="margin-top: 40px;"><%= @recipe.introduction %></p>
+    <p style="margin-top: 40px;"><%= simple_format(@recipe.introduction, sanitize: true) %></p>
 
     <div class="row" style="margin-top: 20px;">
       <div class="col-md-6" style="display: flex; align-items: center;">
@@ -41,7 +41,7 @@
       <div class="col-md-6">
         <h4>手順</h4>
         <% @recipe.steps.each.with_index(1) do |step, index| %>
-          <p><strong>ステップ<%= index %></strong>: <%= step.process %></p>
+          <p><strong>ステップ<%= index %></strong>:<%= simple_format(step.process, sanitize: true) %></p>
           <% if step.step_image.attached? %>
             <div class="col-4">
               <%= image_tag step.step_image, class: "img-fluid" %>
