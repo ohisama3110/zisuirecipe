@@ -1,0 +1,19 @@
+ja:
+  devise:
+    failure:
+      invalid: "メールアドレスまたはパスワードが正しくありません。"
+  activerecord:
+    models:
+      user: ユーザー
+    attributes:
+      user:
+        name: ユーザー名
+        email: メールアドレス
+        password: パスワード
+  errors:
+    messages:
+      blank: を入力してください
+      taken: はすでに使用されています
+      too_short: は%{count}文字以上で入力してください
+      too_long: は%{count}文字以内で入力してください
+      not_saved: "%{count}件のエラーが発生したため、新規登録できませんでした。"
