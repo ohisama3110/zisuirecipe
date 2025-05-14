@@ -1,11 +1,6 @@
 <h2>ログイン</h2>
 
 <%= form_with model: @user, url: user_session_path do |f| %>
-  <% flash.each do |type, message| %>
-    <div class="alert alert-<%= type %>">
-      <%= message %>
-    </div>
-  <% end %>
 
   <div class="field">
     <%= f.label :メールアドレス %><br />
