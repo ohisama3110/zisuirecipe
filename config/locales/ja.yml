@@ -1,10 +1,27 @@
 ja:
+  devise:
+    sessions:
+      signed_in: "ログインに成功しました。"
+      user:
+        signed_in: "ログインに成功しました。"
+    failure:
+      already_authenticated: "ログインに成功しました。"
+      user:
+        already_authenticated: "すでにログインしています。"
+
   activerecord:
     models:
       user: ユーザー
+      recipe: レシピ
     attributes:
       user:
-        name: 名前
+        name: ユーザー名
+      recipe:
+        dish_name: 料理名
+        image: 料理画像
+        ingredients: 材料
+        steps: 手順
+
   errors:
     messages:
       blank: を入力してください

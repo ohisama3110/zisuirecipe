@@ -11,7 +11,9 @@ class Recipe < ApplicationRecord
 
   validates :dish_name, presence: true
   validates :image, presence: true
-  validates :servings, presence: true
+
+  validate :at_least_one_valid_ingredient
+  validate :at_least_one_valid_step
 
   def get_image
     unless image.attached?
@@ -37,4 +39,25 @@ class Recipe < ApplicationRecord
     favorites.exists?(user_id: user.id)
   end
 
+  private
+
+  def at_least_one_valid_ingredient
+    valid_ingredients = ingredients.select do |i|
+      i.ingredient.present? && i.quantity.present?
+    end
+
+    if valid_ingredients.empty?
+      errors.add(:ingredients, "を1つ以上入力してください（材料および分量）")
+    end
+  end
+
+  def at_least_one_valid_step
+    valid_steps = steps.select do |s|
+      s.process.present?
+    end
+
+    if valid_steps.empty?
+      errors.add(:steps, "を1つ以上入力してください")
+    end
+  end
 end
