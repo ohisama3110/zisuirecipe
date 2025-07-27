@@ -1,16 +1,18 @@
-<main class="container">
-  <%= render 'users/user_profile', user: @user, current_user: current_user %>
+<main class="container mt-5">
+  <div class="mb-5">
+    <%= render 'users/user_profile', user: @user, current_user: current_user %>
+  </div>
 
   <div class="text-center">
-    <h2>レシピ一覧</h2>
+    <h2 class="mb-4 fw-bold border-bottom pb-2">投稿したレシピ</h2>
     <% if @user_recipes.any? %>
-      <div class="recipes">
+      <div class="recipes d-flex flex-wrap justify-content-center gap-4">
         <% @user_recipes.each do |recipe| %>
           <%= render 'recipes/recipe_card', recipe: recipe %>
         <% end %>
       </div>
     <% else %>
-      <p>まだ投稿されたレシピはありません。</p>
+      <p class="text-muted">まだ投稿されたレシピはありません。</p>
     <% end %>
   </div>
 </main>

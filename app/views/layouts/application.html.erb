@@ -17,82 +17,64 @@
 
   <body class="d-flex flex-column vh-100">
     <header class="shadow-sm">
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <nav class="navbar navbar-expand-lg navbar-light navbar-cafe">
         <div class="container">
-          <a class="navbar-brand" href="/">
-           <span>自炊レシピ</span>
-          </a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <a class="navbar-brand" href="/">自炊レシピ</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#navbarNavDropdown"
+                  aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
+
           <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav ml auto">
-            <% if user_signed_in? %>
-            <li>
-              <a class="nav-link text-light" href="/mypage">
-                <i class="fa-solid fa-address-card"></i>マイページ
-              </a>
-            </li>
-            <li>
-              <a class="nav-link text-light" href="/recipes">
-                <i class="fa-solid fa-file-pen"></i>みんなのレシピ
-              </a>
-            </li>
-            <li>
-              <a class="nav-link text-light" href="/groups">
-                <i class="fa-solid fa-user-group"></i>グループ
-              </a>
-            </li>
-            <li>
-              <a class="nav-link text-light" href="/favorites">
-                <i class="fa-solid fa-star"></i>お気に入り
-              </a>
-            </li>
-            <li>
-              <a class="nav-link text-light" rel="nofollow" data-method="delete" href="<%= destroy_user_session_path %>">
-                ログアウト
-              </a>
-            </li>
-            <% else %>
-            <li>
-              <a class="nav-link text-light" href="/">
-                トップページ
-              </a>
-            </li>
-            <li>
-              <a class="nav-link text-light" href="/homes/about">
-                自炊レシピとは？
-              </a>
-            </li>
-            <li>
-              <a class="nav-link text-light" href="/recipes">
-                <i class="fa-solid fa-file-pen"></i>みんなのレシピ
-              </a>
-            </li>
-            <li>
-              <a class="nav-link text-light" href="/users/sign_up">
-                新規登録
-              </a>
-            </li>
-            <li>
-              <a class="nav-link text-light" href="/users/sign_in">
-                ログイン
-              </a>
-            </li>
-            <% end %>
+            <ul class="navbar-nav ms-auto">
+              <% if user_signed_in? %>
+                <li class="nav-item">
+                  <a class="nav-link" href="/mypage"><i class="fa-solid fa-address-card"></i>マイページ</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/recipes"><i class="fa-solid fa-file-pen"></i>みんなのレシピ</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/groups"><i class="fa-solid fa-user-group"></i>グループ</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/favorites"><i class="fa-solid fa-star"></i>お気に入り</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" rel="nofollow" data-method="delete" href="<%= destroy_user_session_path %>">ログアウト</a>
+                </li>
+              <% else %>
+                <li class="nav-item">
+                  <a class="nav-link" href="/">トップページ</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/homes/about">自炊レシピとは？</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/recipes"><i class="fa-solid fa-file-pen"></i>みんなのレシピ</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/users/sign_up">新規登録</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/users/sign_in">ログイン</a>
+                </li>
+              <% end %>
             </ul>
           </div>
         </div>
       </nav>
-      <div style="text-align: center;">
-        <% if user_signed_in? %>
+
+      <% if user_signed_in? %>
+        <div class="search-form text-center mt-3 mb-2">
           <%= form_with url: search_path, method: :get, local: true do |f| %>
-            <%= text_field_tag :query, params[:query] %>
-            <%= f.select :model, options_for_select({ "レシピ" => "recipe", "ユーザー" => "user" }) %>
-            <%= submit_tag "検索" %>
+            <%= text_field_tag :query, params[:query], placeholder: "検索ワードを入力", class: "me-2" %>
+            <%= f.select :model, options_for_select({ "レシピ" => "recipe", "ユーザー" => "user" }), {}, class: "me-2" %>
+            <%= submit_tag "検索", class: "btn" %>
           <% end %>
-        <% end %>
-      </div>
+        </div>
+      <% end %>
     </header>
     <main class="mb-auto">
       <% if flash[:notice] %>

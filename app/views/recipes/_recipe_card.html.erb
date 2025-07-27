@@ -1,36 +1,22 @@
-<div class="col-md-8 mb-4">
-  <a href="/recipes/<%= recipe.id %>" class="card-link text-dark text-decoration-none">
-    <div class="card">
-      <div class="row no-gutters">
-        <div class="col-4">
-          <% if recipe.image.attached? %>
-            <%= image_tag recipe.image, class: "card-img-top img-fluid p-3" %>
-          <% else %>
-            <img src="/assets/25480379.jpg" alt="画像の説明" class="card-img-top img-fluid p-3">
-          <% end %>
-        </div>
-        <div class="col-8">
-          <div class="card-body">
-            <div class="col">
-              <h4 class="card-title"><%= recipe.dish_name %></h4>
-              <% ingredients_list = recipe.ingredients.map(&:ingredient).join("、") %>
-              <p class="card-text d-inline-block" style="white-space: normal; max-width: 300px;"><%= ingredients_list %></p>
-              <p class="card-text"><%= recipe.servings %></p>
-              <div class="col-auto">
-                <% if recipe.user.image_url.attached? %>
-                  <%= image_tag recipe.user.image_url, size: "30x30", class: "mr-2" %> <!-- 画像を小さくして横に余白を追加 -->
-                <% else %>
-                  <%= image_tag '25480379.jpg', size: "30x30", class: "mr-2" %> <!-- デフォルト画像を小さくして横に余白を追加 -->
-                <% end %>
-                <p class="card-text d-inline-block"><%= recipe.user.name %></p> <!-- ユーザーネームを横に表示 -->
-              </div>
-            </div>
-          </div>
-        </div>
+<div class="col" style="padding: 0.5rem;">
+  <%= link_to recipe_path(recipe), class: "text-decoration-none text-dark" do %>
+    <div class="card shadow rounded-4 h-100" style="background-color: #f9f5f0; border: none; font-family: 'Georgia', serif;">
+      <% if recipe.image.attached? %>
+        <%= image_tag recipe.image, class: "card-img-top rounded-top-4", style: "height: 200px; object-fit: cover;" %>
+      <% end %>
+      <div class="card-body pb-5">
+        <h5 class="card-title fw-bold" style="color: #6b4c3b;"><%= recipe.dish_name %></h5>
+        <p class="card-text small" style="color: #7c5e4b;">
+          <%= truncate(recipe.ingredients.map(&:ingredient).join(", "), length: 40) %>
+        </p>
+        <p class="text-end small" style="color: #a0876a;">
+          <i class="fas fa-user-pen"></i> <%= recipe.user.name %><br>
+          <i class="fas fa-calendar-days"></i> <%= recipe.created_at.strftime("%Y年%m月%d日") %>
+        </p>
       </div>
-      <p class="card-text text-muted ms-3" style="font-size: 0.9em;">
-        投稿日時: <%= recipe.created_at.strftime("%Y年%m月%d日 %H:%M") %>
-      </p>
+      <div class="position-absolute bottom-0 start-0 m-2 px-2 py-1 bg-warning text-dark rounded-pill small shadow-sm" style="z-index: 1;">
+        ★ <%= recipe.favorites.count %>
+      </div>
     </div>
-  </a>
+  <% end %>
 </div>

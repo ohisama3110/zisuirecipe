@@ -1,27 +1,25 @@
-<h2>ログイン</h2>
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+  <div class="card shadow p-4 rounded-4" style="width: 100%; max-width: 400px; background-color: #fdfaf5;">
+    <h2 class="text-center mb-4 fw-bold text-brown">ログイン</h2>
 
-<%= form_with model: @user, url: user_session_path do |f| %>
+    <%= form_with scope: :user, url: session_path(:user), local: true do |f| %>
+      <div class="mb-3">
+        <%= f.label :email, "メールアドレス", class: "form-label text-brown" %>
+        <%= f.email_field :email, autofocus: true, class: "form-control rounded-pill" %>
+      </div>
 
-  <div class="field">
-    <%= f.label :メールアドレス %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
+      <div class="mb-3">
+        <%= f.label :password, "パスワード", class: "form-label text-brown" %>
+        <%= f.password_field :password, autocomplete: "current-password", class: "form-control rounded-pill" %>
+      </div>
 
-  <div class="field">
-    <%= f.label :パスワード %><br />
-    <%= f.password_field :password, autocomplete: "current-password" %>
-  </div>
+      <div class="d-grid mb-3">
+        <%= f.submit "ログインする", class: "btn btn-brown rounded-pill" %>
+      </div>
+    <% end %>
 
-  <% if devise_mapping.rememberable? %>
-    <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :ログイン情報を保存する %>
+    <div class="text-center">
+      <%= link_to "パスワードを忘れた方はこちら", new_user_password_path, class: "text-decoration-none text-brown small" %>
     </div>
-  <% end %>
-
-  <div class="actions">
-    <%= f.submit "ログイン" %>
   </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</div>

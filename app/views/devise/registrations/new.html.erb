@@ -1,34 +1,40 @@
-<h2>新規登録</h2>
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+  <div class="card shadow p-4 rounded-4" style="width: 100%; max-width: 450px; background-color: #fdfaf5;">
+    <h2 class="text-center mb-4 fw-bold text-brown">新規登録</h2>
 
-<%= form_with model: @user, url: user_registration_path do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+    <%= form_with model: @user, url: user_registration_path, local: true do |f| %>
+      <%= render "devise/shared/error_messages", resource: resource %>
 
-  <div class="field">
-    <%= f.label :ユーザー名 %><br>
-    <%= f.text_field :name %>
+      <div class="mb-3">
+        <%= f.label :name, "ユーザー名", class: "form-label text-brown" %>
+        <%= f.text_field :name, class: "form-control rounded-pill" %>
+      </div>
+
+      <div class="mb-3">
+        <%= f.label :email, "メールアドレス", class: "form-label text-brown" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control rounded-pill" %>
+      </div>
+
+      <div class="mb-3">
+        <%= f.label :password, "パスワード", class: "form-label text-brown" %>
+        <% if @minimum_password_length %>
+          <small class="text-muted">（<%= @minimum_password_length %>文字以上）</small>
+        <% end %>
+        <%= f.password_field :password, autocomplete: "new-password", class: "form-control rounded-pill" %>
+      </div>
+
+      <div class="mb-4">
+        <%= f.label :password_confirmation, "パスワード（確認用）", class: "form-label text-brown" %>
+        <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control rounded-pill" %>
+      </div>
+
+      <div class="d-grid mb-3">
+        <%= f.submit "登録する", class: "btn btn-brown btn-lg rounded-pill shadow-sm fw-bold" %>
+      </div>
+    <% end %>
+
+    <div class="text-center mt-2">
+      <%= link_to "すでにアカウントをお持ちの方はこちら", new_user_session_path, class: "text-brown text-decoration-underline fw-bold" %>
+    </div>
   </div>
-
-  <div class="field">
-    <%= f.label :メールアドレス %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :パスワード %>
-    <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> 文字以上)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :パスワード（確認用） %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Sign up" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</div>

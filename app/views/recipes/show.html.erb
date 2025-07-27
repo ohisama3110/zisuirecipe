@@ -1,106 +1,116 @@
-<main>
-  <p id="notice"></p>
-  <div class="container" style="position: relative; padding-top: 20px;">
-    <%= image_tag @recipe.image, class: "img-fluid", size: "300x300" %>
-    <div class="d-flex align-items-end mt-3">
-      <h2 class="me-3 mb-0"><%= @recipe.dish_name %></h2>
-      <p class="text text-muted mb-0" style="font-size: 0.9em;">
-        投稿日時: <%= @recipe.created_at.strftime("%Y年%m月%d日 %H:%M") %>
-      </p>
+<main style="font-family: 'Georgia', serif; background-color: #fdf6ee; padding: 2rem;">
+  <div class="container rounded-4 shadow-sm p-4" style="background-color: #ffffff; max-width: 900px; margin: auto;">
+
+    <!-- レシピ画像 -->
+    <% if @recipe.image.attached? %>
+      <%= image_tag @recipe.image, class: "rounded-4 mb-4", style: "width: 100%; max-height: 400px; object-fit: cover;" %>
+    <% end %>
+
+    <!-- タイトルと投稿者 -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2 class="fw-bold" style="color: #6b4c3b;"><%= @recipe.dish_name %></h2>
+      <p class="text-muted small"><%= @recipe.created_at.strftime("%Y年%m月%d日 %H:%M") %></p>
     </div>
-    <div style="display: flex; align-items: center; margin-top: 20px;">
-      <%= link_to(@user == current_user ? mypage_path : user_path(@user), class: "text-decoration-none") do %>
+
+    <!-- 投稿者情報 -->
+    <div class="d-flex align-items-center mb-4">
+      <%= link_to(@user == current_user ? mypage_path : user_path(@user), class: "text-decoration-none d-flex align-items-center") do %>
         <% if @user.image_url.present? %>
-          <%= image_tag @user.image_url, size: "40x40" %>
+          <%= image_tag @user.image_url, size: "40x40", class: "rounded-circle border me-2" %>
         <% else %>
-          <%= image_tag '25480379.jpg', size: "40x40" %>
+          <%= image_tag '25480379.jpg', size: "40x40", class: "rounded-circle border me-2" %>
         <% end %>
-        <span style="margin-left: 10px;"><%= @user.name %></span>
-        <span style="margin-left: 10px;">(<%= @user.display_user_id %>)</span>
+        <div>
+          <strong><%= @user.name %></strong>（<%= @user.display_user_id %>）
+        </div>
       <% end %>
     </div>
-    <h4 style="margin-top: 40px;">おすすめポイント</h4>
-    <p style="margin-top: 40px;"><%= simple_format(@recipe.introduction, sanitize: true) %></p>
 
-    <div class="row" style="margin-top: 20px;">
-      <div class="col-md-6" style="display: flex; align-items: center;">
-        <h4 style="margin-right: 10px;">材料</h4>
-        <%= @recipe.servings %>
-      </div>
-    </div>
-    <div class="row" style="margin-top: 20px;">
-      <div class="col-md-6">
-        <% @recipe.ingredients.each do |ingredient| %>
-          <p><strong><%= ingredient.ingredient %>：</strong><%= ingredient.quantity %></p>
+    <!-- おすすめポイント -->
+    <h5 class="fw-bold" style="color: #7c5e4b;">おすすめポイント</h5>
+    <p class="mb-4" style="white-space: pre-line; color: #5e4633;"><%= simple_format(@recipe.introduction, sanitize: true) %></p>
+
+    <!-- 材料 -->
+    <h5 class="fw-bold" style="color: #7c5e4b;">材料（<%= @recipe.servings %>）</h5>
+    <ul class="mb-4" style="list-style-type: square; color: #5e4633;">
+      <% @recipe.ingredients.each do |ingredient| %>
+        <li><%= ingredient.ingredient %>：<%= ingredient.quantity %></li>
+      <% end %>
+    </ul>
+
+    <!-- 手順 -->
+    <h5 class="fw-bold" style="color: #7c5e4b;">作り方</h5>
+    <% @recipe.steps.each.with_index(1) do |step, index| %>
+      <div class="mb-3">
+        <p><strong>Step <%= index %></strong>：<%= simple_format(step.process, sanitize: true) %></p>
+        <% if step.step_image.attached? %>
+          <%= image_tag step.step_image, class: "img-fluid rounded", style: "max-width: 300px;" %>
         <% end %>
-      </div>
-    </div>
-
-
-    <div class="row" style="margin-top: 20px;">
-      <div class="col-md-6">
-        <h4>手順</h4>
-        <% @recipe.steps.each.with_index(1) do |step, index| %>
-          <p><strong>ステップ<%= index %></strong>:<%= simple_format(step.process, sanitize: true) %></p>
-          <% if step.step_image.attached? %>
-            <div class="col-4">
-              <%= image_tag step.step_image, class: "img-fluid" %>
-            </div>
-          <% end %>
-        <% end %>
-      </div>
-    </div>
-
-    <% if @recipe.user == current_user %>
-      <div class="edit" style="margin-top: 20px;">
-        <%= link_to '編集する', edit_recipe_path(@recipe), class: "btn btn-primary" %>
-      </div>
-
-      <div class="delete" style="position: absolute; bottom: 0; right: 0; margin-top: 20px;">
-        <%= link_to 'レシピを削除', @recipe, method: :delete, data: { confirm: '本当に削除しますか？' }, class: "btn btn-danger" %>
       </div>
     <% end %>
 
-    <% if @recipe.favorited_by?(current_user) %>
-      <p>
-        <%= link_to recipe_favorite_path(@recipe), method: :delete do %>
-          ★<%= @recipe.favorites.count %> お気に入り
+    <!-- お気に入り -->
+    <div class="mt-4">
+      <% if @recipe.favorited_by?(current_user) %>
+        <%= link_to recipe_favorite_path(@recipe), method: :delete, class: "btn btn-outline-danger rounded-pill" do %>
+          ♥ <%= @recipe.favorites.count %> お気に入り解除
         <% end %>
-      </p>
       <% else %>
-      <p>
-        <%= link_to recipe_favorite_path(@recipe), method: :post do %>
-          ☆<%= @recipe.favorites.count %> お気に入り
+        <%= link_to recipe_favorite_path(@recipe), method: :post, class: "btn btn-outline-warning rounded-pill" do %>
+          ♡ <%= @recipe.favorites.count %> お気に入りに追加
         <% end %>
-      </p>
-    <% end %>
-
-    <div class="row" style="margin-top: 20px;">
-      <div class="col-md-6">
-        <h2>みんなの反応</h2>
-        <p>コメント数：<%= @recipe.comments.count %>件</p>
-        <% @recipe.comments.each do |comment| %>
-          <div class="comment">
-            <% if comment.user.profile_image.attached? %>
-              <%= image_tag comment.user.profile_image.variant(resize: "50x50") %>
-            <% else %>
-              <%= image_tag "25480379.jpg", size: "50x50", alt: "デフォルト画像" %>
-            <% end %>
-            <strong><%= comment.user.name %></strong>: <%= comment.content %>
-            <% if comment.user == current_user %>
-              <%= link_to "削除", recipe_comment_path(@recipe, comment), method: :delete, data: {confirm: '本当に削除しますか？'} %>
-            <% end %>
-          </div>
-        <% end %>
-      </div>
+      <% end %>
     </div>
 
-    <%= form_with model: [@recipe, @comment] do |f| %>
-      <div class="field" style="margin-top: 20px;">
-        <%= f.label :コメント %><br>
-        <%= f.text_area :content %>
+    <!-- 編集・削除 -->
+    <% if @recipe.user == current_user %>
+      <div class="d-flex justify-content-end gap-2 mt-4">
+        <%= link_to '編集', edit_recipe_path(@recipe), class: "btn btn-outline-secondary rounded-pill" %>
+        <%= link_to '削除', @recipe, method: :delete, data: { confirm: '本当に削除しますか？' }, class: "btn btn-danger rounded-pill" %>
       </div>
-      <%= f.submit 'コメントする' %>
     <% end %>
+
+    <!-- コメント -->
+    <div class="mt-5">
+      <h5 class="fw-bold" style="color: #7c5e4b;">みんなの反応（<%= @recipe.comments.count %>件）</h5>
+      <% @recipe.comments.each do |comment| %>
+        <div class="d-flex align-items-start mb-3">
+          <!-- アイコン -->
+          <% if comment.user.profile_image.attached? %>
+            <%= image_tag comment.user.profile_image.variant(resize: "50x50"), class: "rounded-circle me-3", alt: comment.user.name %>
+          <% else %>
+            <%= image_tag "25480379.jpg", size: "50x50", class: "rounded-circle me-3", alt: "デフォルト画像" %>
+          <% end %>
+      
+          <!-- 吹き出し風コメント -->
+          <div class="bg-light p-3 rounded-4 shadow-sm position-relative" style="max-width: 600px;">
+            <%= link_to (@current_user == comment.user ? mypage_path : user_path(comment.user)), class: "text-dark text-decoration-underline fw-bold" do %>
+              <%= comment.user.name %>（<%= comment.user.display_user_id %>）
+            <% end %>
+            <p class="mb-1" style="color: #333;"><%= comment.content %></p>
+            
+            <% if comment.user == current_user %>
+              <div class="text-end">
+                <%= link_to "削除", recipe_comment_path(@recipe, comment), method: :delete, data: {confirm: '本当に削除しますか？'}, class: "text-danger small" %>
+              </div>
+            <% end %>
+      
+            <!-- 吹き出しの三角 -->
+            <div style="position: absolute; top: 15px; left: -10px; width: 0; height: 0; border-top: 10px solid transparent; border-right: 10px solid #f8f9fa; border-bottom: 10px solid transparent;"></div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- コメント投稿 -->
+    <div class="mt-4">
+      <%= form_with model: [@recipe, @comment], local: true do |f| %>
+        <div class="mb-3">
+          <%= f.label :content, "コメントを追加", class: "form-label" %>
+          <%= f.text_area :content, class: "form-control", rows: 3 %>
+        </div>
+        <%= f.submit 'コメントする', class: "btn btn-outline-primary rounded-pill" %>
+      <% end %>
+    </div>
   </div>
 </main>

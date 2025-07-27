@@ -1,7 +1,13 @@
-<h1>おすすめレシピ</h1>
-<%= form_with model: @recipe do |f| %>
-  <%= render partial: 'recipes/recipe_form', locals: { f: f } %>
-  <div class="col-md-6 mt-5 text-center">
-    <%= f.submit '投稿する' %>
+<div class="container py-5">
+  <div class="card shadow p-5 rounded-4 mx-auto" style="max-width: 800px; background-color: #fdfaf5;">
+    <h2 class="text-center fw-bold mb-4 text-brown">おすすめレシピ投稿</h2>
+
+    <%= form_with model: @recipe, local: true do |f| %>
+      <%= render partial: 'recipes/recipe_form', locals: { f: f } %>
+
+      <div class="text-center mt-4">
+        <%= f.submit '投稿する', class: 'btn btn-brown btn-lg rounded-pill shadow-sm' %>
+      </div>
+    <% end %>
   </div>
-<% end %>
+</div>
